@@ -35,11 +35,13 @@ function howMany(i, j, element)
     for(var j2 = jmin; j2 <= jmax; j2++)
       sum += theDojo[i2][j2];
 
-  alert(sum + " ninjas hiding under this and adjacent squares");
+  // alert(sum + " ninjas hiding under this and adjacent squares");
+
+  // put number of nearby ninjas on the button
+  element.innerText = sum;
 }
     
 // BONUS CHALLENGES
-// 1. draw the number onto the button instead of alerting it
 // 2. at the start randomly place 10 ninjas into theDojo with at most 1 on each spot
 // 3. if you click on a ninja you must restart the game 
 //    dojoDiv.innerHTML = `<button onclick="location.reload()">restart</button>`;
