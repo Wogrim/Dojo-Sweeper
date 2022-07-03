@@ -20,13 +20,22 @@ function render(theDojo) {
   }
   return result;
 }
-    
-// TODO - Make this function tell us how many ninjas are hiding 
-//        under the adjacent (all sides and corners) squares.
-//        Use i and j as the indexes to check theDojo.
-function howMany(i, j, element) {
+
+function howMany(i, j, element)
+{
   console.log({i, j});
-  alert("TODO - determine how many ninjas are hiding in adjacent squares");
+
+  var imin = Math.max(0, i-1);
+  var imax = Math.min(theDojo.length-1, i+1);
+  var jmin = Math.max(0, j-1);
+  var jmax = Math.min(theDojo[i].length-1, j+1);
+
+  var sum = 0;
+  for(var i2 = imin; i2 <= imax; i2++)
+    for(var j2 = jmin; j2 <= jmax; j2++)
+      sum += theDojo[i2][j2];
+
+  alert(sum + " ninjas hiding under this and adjacent squares");
 }
     
 // BONUS CHALLENGES
