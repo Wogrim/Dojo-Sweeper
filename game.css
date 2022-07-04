@@ -32,3 +32,7 @@ h2 {
     border-right: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
 }
+
+button.marked {
+    background-color: rgb(236, 88, 88);
+}

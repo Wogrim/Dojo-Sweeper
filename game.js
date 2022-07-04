@@ -14,7 +14,11 @@ var dojoDiv = document.querySelector("#the-dojo");
 function howMany(i, j, element) {
   // console.log({ i, j });
 
-  //lose condition
+  // if the square is marked, don't do anything
+  if (element.classList.contains("marked"))
+    return;
+
+  // lose condition
   if (theDojo[i][j] != 0) {
     alert("game over");
     newGame();
@@ -51,6 +55,21 @@ function howMany(i, j, element) {
   }
 }
 
+function rightclick(element)
+{
+  // mark or unmark the square via class for special CSS styling
+  if(element.classList.contains("marked"))
+  {
+    element.classList.remove("marked");
+    element.innerText="";
+  }
+  else
+  {
+    element.innerText="*";
+    element.classList.add("marked");
+  }
+}
+
 function randomBoard() {
   // reset the board to all zeros
   for (var i = 0; i < theDojo.length; i++)
@@ -76,7 +95,7 @@ function render(theDojo) {
   var result = "";
   for (var i = 0; i < theDojo.length; i++) {
     for (var j = 0; j < theDojo[i].length; j++) {
-      result += `<button class="tatami" onclick="howMany(${i}, ${j}, this)"></button>`;
+      result += `<button class="tatami" onclick="howMany(${i}, ${j}, this)" oncontextmenu="rightclick(this);return false;"></button>`;
     }
   }
   return result;
