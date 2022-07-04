@@ -15,27 +15,40 @@ function howMany(i, j, element) {
   // console.log({ i, j });
 
   //lose condition
-  if (theDojo[i][j] != 0)
-  {
+  if (theDojo[i][j] != 0) {
     alert("game over");
     newGame();
     return;
   }
 
+  // indices to check for ninjas when this button is clicked
   var imin = Math.max(0, i - 1);
   var imax = Math.min(theDojo.length - 1, i + 1);
   var jmin = Math.max(0, j - 1);
   var jmax = Math.min(theDojo[i].length - 1, j + 1);
-
+  // count how many ninjas are under this button or adjacent
   var sum = 0;
   for (var i2 = imin; i2 <= imax; i2++)
     for (var j2 = jmin; j2 <= jmax; j2++)
       sum += theDojo[i2][j2];
-
-  // alert(sum + " ninjas hiding under this and adjacent squares");
-
   // put number of nearby ninjas on the button
   element.innerText = sum;
+
+  // if there are no nearby ninjas, reveal adjacent squares
+  // by recursively calling the howMany() function
+  if (sum == 0) {
+    for (var i2 = imin; i2 <= imax; i2++)
+      for (var j2 = jmin; j2 <= jmax; j2++) {
+        // get a reference to the nearby button
+        // using :nth-child because the buttons are placed in the div
+        // in a loop
+        var button = document.querySelector("#the-dojo > button:nth-child(" + (i2 * theDojo[i2].length + j2 + 1) + ")");
+        // reveal the square only if it is not already revealed 
+        // (or else infinite recursion)
+        if(button.innerText === "")
+          howMany(i2,j2,button);
+      }
+  }
 }
 
 function randomBoard() {
@@ -48,11 +61,10 @@ function randomBoard() {
   var count = 0;
   while (count < 10) {
     // get location of a random spot on the board
-    var i = Math.floor(Math.random()*theDojo.length);
-    var j = Math.floor(Math.random()*theDojo[i].length);
+    var i = Math.floor(Math.random() * theDojo.length);
+    var j = Math.floor(Math.random() * theDojo[i].length);
     // if the spot is empty, fill it, otherwise try again
-    if(theDojo[i][j] == 0)
-    {
+    if (theDojo[i][j] == 0) {
       theDojo[i][j] = 1;
       count++;
     }
