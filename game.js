@@ -1,14 +1,6 @@
-// the board is represented as a 2D array of numbers for ninjas on that square
-var theDojo = [[1, 0, 1, 1, 1, 0, 4, 0, 8, 0],
-[3, 1, 0, 7, 0, 0, 6, 0, 8, 8],
-[5, 0, 7, 0, 3, 6, 6, 6, 0, 0],
-[2, 3, 0, 9, 0, 0, 6, 0, 8, 0],
-[6, 0, 3, 3, 0, 2, 0, 3, 0, 4],
-[0, 0, 3, 3, 0, 0, 2, 2, 3, 0],
-[0, 0, 0, 0, 5, 0, 1, 2, 0, 6],
-[2, 2, 2, 2, 0, 7, 1, 1, 1, 0],
-[5, 2, 0, 2, 0, 0, 0, 1, 1, 2],
-[9, 2, 2, 2, 0, 7, 0, 1, 1, 0]];
+// the ninja locations are a 2D array of numbers (1 is a ninja, 0 is no ninja)
+// it was originally hardcoded, now it is generated
+var theDojo = [];
 var dojoDiv = document.querySelector("#the-dojo");
 
 function howMany(i, j, element) {
@@ -70,15 +62,19 @@ function rightclick(element)
   }
 }
 
-function randomBoard() {
-  // reset the board to all zeros
-  for (var i = 0; i < theDojo.length; i++)
-    for (var j = 0; j < theDojo[i].length; j++)
-      theDojo[i][j] = 0;
+function randomBoard(width, height, ninjas) {
+  // create the board with all zeros
+  theDojo = [];
+  for (var i = 0; i < height; i++)
+  {
+    theDojo.push([])
+    for (var j = 0; j < width; j++)
+      theDojo[i].push(0);
+  }
 
-  // set 10 random spots on the board to 1
+  // set {ninjas} random spots on the board to 1
   var count = 0;
-  while (count < 10) {
+  while (count < ninjas) {
     // get location of a random spot on the board
     var i = Math.floor(Math.random() * theDojo.length);
     var j = Math.floor(Math.random() * theDojo[i].length);
@@ -102,13 +98,13 @@ function render(theDojo) {
 }
 
 function newGame() {
-  // remove the board buttons
-  dojoDiv.innerHTML = "";
-  // generate random board
-  randomBoard();
-  // shows the dojo for debugging purposes
+  // generate new random ninja locations
+  randomBoard(15, 15, 25);
+  // log the ninja locations for debugging purposes
   console.table(theDojo);
-  // adds the rows of buttons into <div id="the-dojo"></div> 
+  // set width of the board so the buttons wrap properly (buttons are 32px)
+  dojoDiv.style.width = theDojo[0].length * 32 + "px";
+  // generate the board buttons (overwrites old buttons)
   dojoDiv.innerHTML = render(theDojo);
 }
 
