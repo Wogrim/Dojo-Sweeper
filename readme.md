@@ -1,0 +1,1 @@
+a Coding Dojo algorithm problem (count the ninjas in this and adjacent squares) which I have taken a bit farther (see the original files in the other branch)
