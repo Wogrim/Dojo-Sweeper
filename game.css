@@ -18,7 +18,7 @@ h2 {
     flex-wrap: wrap;
 }
     
-.tatami {
+#the-dojo button {
     background-color: wheat;
     height: 32px;
     width: 32px;
@@ -27,19 +27,29 @@ h2 {
     border-bottom: 2px solid #999;
 }
     
-.tatami:active {
+#the-dojo button:active {
     border: 2px solid #999;
     border-right: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
 }
 
-button.marked {
+#the-dojo button.revealed {
+    background-color: rgb(175, 196, 140);
+    border: none;
+}
+
+#the-dojo button.revealed:active
+{
+    border: none;
+}
+
+#the-dojo button.marked {
     background-color: rgb(236, 88, 88);
 }
 
 #settings
 {
-    margin: 0 auto;
+    margin: 5px auto;
     display: flex;
     justify-content: center;
 }
@@ -58,12 +68,11 @@ button.marked {
 #settings input
 {
     width: 50px;
-    border: none;
 }
 
 button#newgame
 {
-    background-color: rgb(147, 168, 111);
+    background-color: rgb(175, 196, 140);
     border: 3px solid black;
     box-shadow: 2px 2px 0px black;
     display: block;

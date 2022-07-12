@@ -6,11 +6,11 @@ var width_input = document.querySelector("#width");
 var height_input = document.querySelector("#height");
 var ninjas_input = document.querySelector("#ninjas");
 
-function howMany(i, j, element) {
+function leftclick(i, j, element) {
   // console.log({ i, j });
 
-  // if the square is marked, don't do anything
-  if (element.classList.contains("marked"))
+  // if the square is marked or already revealed, don't do anything
+  if (element.classList.contains("marked") || element.classList.contains("revealed"))
     return;
 
   // lose condition
@@ -30,28 +30,34 @@ function howMany(i, j, element) {
   for (var i2 = imin; i2 <= imax; i2++)
     for (var j2 = jmin; j2 <= jmax; j2++)
       sum += theDojo[i2][j2];
-  // put number of nearby ninjas on the button
-  element.innerText = sum;
+  // put number of nearby ninjas on the button unless zero
+  element.innerText = sum > 0? sum : "";
+  //add "revealed" class to button for different color
+  element.classList.add("revealed");
 
   // if there are no nearby ninjas, reveal adjacent squares
-  // by recursively calling the howMany() function
+  // by recursively calling the leftclick() function
   if (sum == 0) {
     for (var i2 = imin; i2 <= imax; i2++)
       for (var j2 = jmin; j2 <= jmax; j2++) {
         // get a reference to the nearby button
         // using :nth-child because the buttons are placed in the div
-        // in a loop
+        // in a loop so we can calculate based on i and j
         var button = document.querySelector("#the-dojo > button:nth-child(" + (i2 * theDojo[i2].length + j2 + 1) + ")");
         // reveal the square only if it is not already revealed 
         // (or else infinite recursion)
-        if(button.innerText === "")
-          howMany(i2,j2,button);
+        if(!button.classList.contains("revealed"))
+          leftclick(i2,j2,button);
       }
   }
 }
 
 function rightclick(element)
 {
+  //don't let the user mark buttons that are already revealed
+  if(element.classList.contains("revealed"))
+    return;
+
   // mark or unmark the square via class for special CSS styling
   if(element.classList.contains("marked"))
   {
@@ -94,7 +100,7 @@ function render(theDojo) {
   var result = "";
   for (var i = 0; i < theDojo.length; i++) {
     for (var j = 0; j < theDojo[i].length; j++) {
-      result += `<button class="tatami" onclick="howMany(${i}, ${j}, this)" oncontextmenu="rightclick(this);return false;"></button>`;
+      result += `<button onclick="leftclick(${i}, ${j}, this)" oncontextmenu="rightclick(this);return false;"></button>`;
     }
   }
   return result;
