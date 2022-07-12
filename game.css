@@ -36,3 +36,41 @@ h2 {
 button.marked {
     background-color: rgb(236, 88, 88);
 }
+
+#settings
+{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#settings label, #settings input, button#newgame
+{
+    font-size: 1em;
+    padding: 5px 10px;
+}
+
+#settings label
+{
+    color: gray;
+}
+
+#settings input
+{
+    width: 50px;
+    border: none;
+}
+
+button#newgame
+{
+    background-color: rgb(147, 168, 111);
+    border: 3px solid black;
+    box-shadow: 2px 2px 0px black;
+    display: block;
+    margin: 0 auto;
+}
+
+button#newgame:active
+{
+    box-shadow:none;
+}

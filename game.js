@@ -2,6 +2,9 @@
 // it was originally hardcoded, now it is generated
 var theDojo = [];
 var dojoDiv = document.querySelector("#the-dojo");
+var width_input = document.querySelector("#width");
+var height_input = document.querySelector("#height");
+var ninjas_input = document.querySelector("#ninjas");
 
 function howMany(i, j, element) {
   // console.log({ i, j });
@@ -97,9 +100,41 @@ function render(theDojo) {
   return result;
 }
 
+function validateSettings()
+{
+  //make sure the inputs are numbers that make sense
+  var width = parseInt(width_input.value);
+  if(isNaN(width) || width < 1)
+  {
+    width = 1;
+    width_input.value = width;
+  }
+
+  var height = parseInt(height_input.value);
+  if(isNaN(height) || height < 1)
+  {
+    height = 1;
+    height_input.value = height;
+  }
+
+  var ninjas = parseInt(ninjas_input.value);
+  if(isNaN(ninjas) || ninjas < 1)
+  {
+    ninjas = 1;
+    ninjas_input.value = ninjas;
+  }
+  else if(ninjas > width * height)
+  {
+    ninjas = width * height;
+    ninjas_input.value = ninjas;
+  }
+}
+
 function newGame() {
-  // generate new random ninja locations
-  randomBoard(15, 15, 25);
+  // validate the settings
+  validateSettings();
+  // generate new random ninja locations (including board size)
+  randomBoard(parseInt(width_input.value), parseInt(height_input.value), parseInt(ninjas_input.value));
   // log the ninja locations for debugging purposes
   console.table(theDojo);
   // set width of the board so the buttons wrap properly (buttons are 32px)

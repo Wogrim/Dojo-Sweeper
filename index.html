@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dojo Sweeper</title>
     <link rel="stylesheet" href="game.css">
 </head>
+
 <body>
     <h2>Dojo Sweeper</h2>
     <div id="the-dojo">still loading... there may be an error</div>
+    <div id="settings">
+        <label for="width">width<input type="number" name="width" id="width" value="15"></label>
+        <label for="height">height<input type="number" name="height" id="height" value="15"></label>
+        <label for="ninjas">ninjas<input type="number" name="ninjas" id="ninjas" value="25"></label>
+    </div>
+    <button id="newgame" onclick="newGame()">new game</button>
+
     <script src="game.js"></script>
 </body>
+
 </html>
