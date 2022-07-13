@@ -4,7 +4,7 @@ var theDojo = [];
 var dojoDiv = document.querySelector("#the-dojo");
 var width_input = document.querySelector("#width");
 var height_input = document.querySelector("#height");
-var ninjas_input = document.querySelector("#ninjas");
+var difficulty_input = document.querySelector("#difficulty");
 
 function leftclick(i, j, element) {
   // console.log({ i, j });
@@ -72,6 +72,7 @@ function rightclick(element)
 }
 
 function randomBoard(width, height, ninjas) {
+  // console.log(`making board with ${width} width, ${height} height, ${ninjas} ninjas`);
   // create the board with all zeros
   theDojo = [];
   for (var i = 0; i < height; i++)
@@ -82,6 +83,7 @@ function randomBoard(width, height, ninjas) {
   }
 
   // set {ninjas} random spots on the board to 1
+  // infinite loop if ninjas > # squares on the board
   var count = 0;
   while (count < ninjas) {
     // get location of a random spot on the board
@@ -106,41 +108,26 @@ function render(theDojo) {
   return result;
 }
 
-function validateSettings()
+function updateLabel(element, labelID)
 {
-  //make sure the inputs are numbers that make sense
-  var width = parseInt(width_input.value);
-  if(isNaN(width) || width < 1)
-  {
-    width = 1;
-    width_input.value = width;
-  }
+  var span = document.querySelector("#" + labelID + " span");
+  span.innerText = element.value;
+}
 
-  var height = parseInt(height_input.value);
-  if(isNaN(height) || height < 1)
-  {
-    height = 1;
-    height_input.value = height;
-  }
-
-  var ninjas = parseInt(ninjas_input.value);
-  if(isNaN(ninjas) || ninjas < 1)
-  {
-    ninjas = 1;
-    ninjas_input.value = ninjas;
-  }
-  else if(ninjas > width * height)
-  {
-    ninjas = width * height;
-    ninjas_input.value = ninjas;
-  }
+function calculateNinjas(width,height,difficulty)
+{
+  //convert difficulty range (1 to 8)
+  //to ninja density range (1/12 to 1/5)
+  var density = 1/(13-difficulty);
+  return Math.round(width*height*density);
 }
 
 function newGame() {
-  // validate the settings
-  validateSettings();
+  var width = parseInt(width_input.value);
+  var height = parseInt(height_input.value);
+  var difficulty = parseInt(difficulty_input.value);
   // generate new random ninja locations (including board size)
-  randomBoard(parseInt(width_input.value), parseInt(height_input.value), parseInt(ninjas_input.value));
+  randomBoard(width, height, calculateNinjas(width,height,difficulty));
   // log the ninja locations for debugging purposes
   console.table(theDojo);
   // set width of the board so the buttons wrap properly (buttons are 32px)

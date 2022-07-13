@@ -50,6 +50,10 @@ h2 {
 #settings
 {
     margin: 5px auto;
+}
+
+.row
+{
     display: flex;
     justify-content: center;
 }
@@ -63,11 +67,12 @@ h2 {
 #settings label
 {
     color: gray;
+    width: 150px;
 }
 
 #settings input
 {
-    width: 50px;
+    width: 500px;
 }
 
 button#newgame

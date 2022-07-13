@@ -12,11 +12,20 @@
     <h2>Dojo Sweeper</h2>
     <div id="the-dojo">still loading... there may be an error</div>
     <div id="settings">
-        <label for="width">width<input type="number" name="width" id="width" value="15"></label>
-        <label for="height">height<input type="number" name="height" id="height" value="15"></label>
-        <label for="ninjas">ninjas<input type="number" name="ninjas" id="ninjas" value="25"></label>
+        <div class="row">
+            <input type="range" name="width" id="width" min="8" max="30" step="1" value="10" oninput="updateLabel(this, 'widthL')">
+            <label for="width" id="widthL">width: <span>10</span></label>
+        </div>
+        <div class="row">
+            <input type="range" name="height" id="height" min="8" max="20" step="1" value="10" oninput="updateLabel(this, 'heightL')">
+            <label for="height" id="heightL">height: <span>10</span></label>
+        </div>
+        <div class="row">
+            <input type="range" name="difficulty" id="difficulty" min="1" max="8" step="1" value="3" oninput="updateLabel(this, 'difficultyL')">
+            <label for="difficulty" id="difficultyL">difficulty: <span>3</span></label>
+        </div>
+        <button id="newgame" onclick="newGame()">new game</button>
     </div>
-    <button id="newgame" onclick="newGame()">new game</button>
 
     <script src="game.js"></script>
 </body>
