@@ -20,6 +20,8 @@ The difficulty slider simply increases the density of ninjas, which are always p
 
 However, at any difficulty you can get situations where you just have to guess, and if you're unlucky you lose.  When you are deciding where to guess, consider the odds of the guess being correct, and the odds of that correct guess giving you enough information that you won't have to make another guess.
 
+I originally made the difficulty more granular, but small changes in difficulty weren't noticable so I changed it to a system where you feel more like you've graduated to the next difficulty level.
+
 I capped difficulty at a point where the amount of guessing required feels reasonably minimal (if you're clever enough).
 
 Making the board bigger will reduce your chances of victory by increasing the average number of correct guesses you may have to make, but it generally doesn't affect the level of logic you need to use.

@@ -141,9 +141,9 @@ function updateLabel(element, labelID) {
 }
 
 function calculateNinjas(width, height, difficulty) {
-  //convert difficulty range (1 to 8)
-  //to ninja density range (1/12 to 1/5)
-  var density = 1 / (13 - difficulty);
+  //convert difficulty range (1 to 4)
+  //to ninja density range (8/100 to 20/100)
+  var density = 4 * (difficulty + 1) / 100;
   return Math.round(width * height * density);
 }
 
