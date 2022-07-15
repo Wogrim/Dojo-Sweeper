@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-    
+
 * {
     margin: 0;
     padding: 0;
     font-family: 'Press Start 2P', monospace;
 }
-    
+
 h2 {
     text-align: center;
     margin: 20px 0;
 }
-    
+
 #the-dojo {
     width: 320px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
 }
-    
+
 #the-dojo button {
     background-color: wheat;
     height: 32px;
@@ -26,7 +26,7 @@ h2 {
     border-right: 2px solid #999;
     border-bottom: 2px solid #999;
 }
-    
+
 #the-dojo button:active {
     border: 2px solid #999;
     border-right: 2px solid #ccc;
@@ -38,8 +38,7 @@ h2 {
     border: none;
 }
 
-#the-dojo button.revealed:active
-{
+#the-dojo button.revealed:active {
     border: none;
 }
 
@@ -47,36 +46,44 @@ h2 {
     background-color: rgb(236, 88, 88);
 }
 
-#settings
-{
+#the-dojo button.revealed.cheat {
+    background-color:rgb(140, 190, 196)
+}
+
+#the-dojo button.marked.cheat{
+    background-color:rgb(236, 189, 88)
+}
+
+#the-dojo button.cheat.mistake{
+    background-color: rgb(190, 140, 196);
+}
+
+#settings {
     margin: 5px auto;
 }
 
-.row
-{
+.row {
     display: flex;
     justify-content: center;
 }
 
-#settings label, #settings input, button#newgame
-{
+#settings label,
+#settings input,
+button#newgame {
     font-size: 1em;
     padding: 5px 10px;
 }
 
-#settings label
-{
+#settings label {
     color: gray;
     width: 150px;
 }
 
-#settings input
-{
+#settings input {
     width: 500px;
 }
 
-button#newgame
-{
+button#newgame {
     background-color: rgb(175, 196, 140);
     border: 3px solid black;
     box-shadow: 2px 2px 0px black;
@@ -84,7 +91,6 @@ button#newgame
     margin: 0 auto;
 }
 
-button#newgame:active
-{
-    box-shadow:none;
+button#newgame:active {
+    box-shadow: none;
 }

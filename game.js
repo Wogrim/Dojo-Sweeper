@@ -1,5 +1,5 @@
 //theDojo is a 2D array of objects ("squares") which keep track of their status
-var theDojo = 
+var theDojo =
 {
   width: 0,
   height: 0,
@@ -26,16 +26,48 @@ function makeSquare(i, j) {
   }
 }
 
+//reveal the rest of the board with alternate colors if you lose
+function cheatReveal() {
+  var square;
+  for (var i = 0; i < theDojo.height; i++) {
+    for (var j = 0; j < theDojo.width; j++) {
+      square = theDojo.squares[i][j];
+      square.status=3; //prevent left click / right click code from running
+      if (square.status === 0) {
+        square.btn.classList.add('cheat');
+        if (!square.ninja) {
+          square.btn.classList.add('revealed');
+          square.btn.innerText = square.nearby > 0 ? square.nearby : "";
+
+        }
+        else {
+          square.btn.classList.add('marked');
+          square.btn.innerText = '*';
+        }
+      }
+      else if (square.status === 2 && !square.ninja) {
+        //mistake: marked the square but it didn't have a ninja
+        square.btn.classList.add('cheat');
+        square.btn.classList.remove('marked');
+        square.btn.classList.add('mistake');
+        square.btn.classList.add('revealed');
+        square.btn.innerText = square.nearby > 0 ? square.nearby : "";
+      }
+    }
+  }
+}
+
 function leftclick(i, j) {
   var square = theDojo.squares[i][j];
 
-  // if the square is marked or already revealed, don't do anything
+  // do nothing if already revealed or marked
   if (square.status > 0)
     return;
 
   // lose condition
   if (square.ninja) {
-    alert("game over");
+    square.btn.classList.add('mistake');
+    cheatReveal();
     return;
   }
 
@@ -62,27 +94,24 @@ function leftclick(i, j) {
 
 function rightclick(i, j) {
   var square = theDojo.squares[i][j];
-  //don't let the user mark buttons that are already revealed
-  if (square.status === 1)
-    return;
-
   // mark or unmark the square via class for special CSS styling
-  if (square.status === 2) {
-    square.status = 0;
-    square.btn.classList.remove("marked");
-    square.btn.innerText = "";
-  }
-  else {
+  // (do nothing if already revealed)
+  if (square.status === 0) {
     square.status = 2;
     square.btn.innerText = "*";
     square.btn.classList.add("marked");
   }
+  else if (square.status === 2) {
+    square.status = 0;
+    square.btn.classList.remove("marked");
+    square.btn.innerText = "";
+  }
 }
 
 function randomBoard(width, height, ninjas) {
-  theDojo.width=width;
-  theDojo.height=height;
-  theDojo.ninjas=ninjas;
+  theDojo.width = width;
+  theDojo.height = height;
+  theDojo.ninjas = ninjas;
   // create the empty board
   theDojo.squares = [];
   for (var i = 0; i < height; i++) {

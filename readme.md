@@ -14,6 +14,8 @@ Left click a square to reveal it.  If there is a ninja there, you lose.  If it i
 
 Right click a square to mark it.  If you later decide a ninja is not hiding there, you must right click it again to unmark it before you can reveal it.
 
+If you lose, the rest of the board will be revealed with alternate colors and your mistake(s) will have a special color.
+
 ## difficulty
 
 The difficulty slider simply increases the density of ninjas, which are always placed completely randomly.  This generally increases the difficulty of the game by requiring less-obvious ways to figure out where the ninjas are.
