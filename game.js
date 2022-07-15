@@ -32,8 +32,8 @@ function cheatReveal() {
   for (var i = 0; i < theDojo.height; i++) {
     for (var j = 0; j < theDojo.width; j++) {
       square = theDojo.squares[i][j];
-      square.status=3; //prevent left click / right click code from running
       if (square.status === 0) {
+        square.status=3; //prevent left click / right click code from running
         square.btn.classList.add('cheat');
         if (!square.ninja) {
           square.btn.classList.add('revealed');
@@ -47,6 +47,7 @@ function cheatReveal() {
       }
       else if (square.status === 2 && !square.ninja) {
         //mistake: marked the square but it didn't have a ninja
+        square.status=3; //prevent left click / right click code from running
         square.btn.classList.add('cheat');
         square.btn.classList.remove('marked');
         square.btn.classList.add('mistake');
