@@ -27,3 +27,5 @@ I originally made the difficulty more granular, but small changes in difficulty 
 I capped difficulty at a point where the amount of guessing required feels reasonably minimal (if you're clever enough).
 
 Making the board bigger will reduce your chances of victory by increasing the average number of correct guesses you may have to make, but it generally doesn't affect the level of logic you need to use.
+
+Making the board smaller can make it feel relatively harder on the higher difficulties because you will frequently not have enough information to figure out ninja locations, but it is good practice for starting and ending the game.
