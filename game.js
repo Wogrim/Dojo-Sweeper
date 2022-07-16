@@ -3,7 +3,9 @@ var theDojo =
 {
   width: 0,
   height: 0,
-  ninjas: 0,
+  ninjas: 0, //remaining ninjas
+  safes: 0, //remaining safe squares
+  gameOver: false,
   squares: [],
   div: document.querySelector("#the-dojo")
 };
@@ -11,6 +13,8 @@ var theDojo =
 var width_input = document.querySelector("#width");
 var height_input = document.querySelector("#height");
 var difficulty_input = document.querySelector("#difficulty");
+
+var win_message = document.querySelector("#win_message");
 
 function makeSquare(i, j) {
   return {
@@ -33,7 +37,6 @@ function cheatReveal() {
     for (var j = 0; j < theDojo.width; j++) {
       square = theDojo.squares[i][j];
       if (square.status === 0) {
-        square.status=3; //prevent left click / right click code from running
         square.btn.classList.add('cheat');
         if (!square.ninja) {
           square.btn.classList.add('revealed');
@@ -47,7 +50,6 @@ function cheatReveal() {
       }
       else if (square.status === 2 && !square.ninja) {
         //mistake: marked the square but it didn't have a ninja
-        square.status=3; //prevent left click / right click code from running
         square.btn.classList.add('cheat');
         square.btn.classList.remove('marked');
         square.btn.classList.add('mistake');
@@ -58,25 +60,50 @@ function cheatReveal() {
   }
 }
 
+function showWinMessage()
+{
+  win_message.hidden=false;
+  //hide again after 2 seconds
+  setTimeout(() => {  win_message.hidden=true; }, 2000);
+}
+
+function showLoseMessage()
+{
+  lose_message.hidden=false;
+  //hide again after 2 seconds
+  setTimeout(() => {  lose_message.hidden=true; }, 2000);
+}
+
+function checkWinCondition()
+{
+  if(theDojo.safes===0 && theDojo.ninjas===0)
+  {
+    theDojo.gameOver=true;
+    showWinMessage();
+  }
+}
+
 function leftclick(i, j) {
   var square = theDojo.squares[i][j];
 
-  // do nothing if already revealed or marked
-  if (square.status > 0)
+  // do nothing if already revealed or marked or game is over
+  if (square.status > 0 || theDojo.gameOver===true)
     return;
 
   // lose condition
   if (square.ninja) {
+    theDojo.gameOver=true;
     square.btn.classList.add('mistake');
     cheatReveal();
+    showLoseMessage();
     return;
   }
 
   square.status = 1;
+  theDojo.safes--;
   square.btn.classList.add("revealed");
   if (square.nearby > 0)
     square.btn.innerText = square.nearby;
-  //add "revealed" class to button for different color
 
   // if there are no nearby ninjas, reveal adjacent squares
   // by recursively calling the leftclick() function
@@ -91,28 +118,39 @@ function leftclick(i, j) {
         if (theDojo.squares[i2][j2].status === 0)
           leftclick(i2, j2);
   }
+
+  checkWinCondition();
 }
 
 function rightclick(i, j) {
   var square = theDojo.squares[i][j];
+
+  //do nothing if game is over
+  if(theDojo.gameOver)
+    return;
+
   // mark or unmark the square via class for special CSS styling
   // (do nothing if already revealed)
   if (square.status === 0) {
     square.status = 2;
+    theDojo.ninjas--;
     square.btn.innerText = "*";
     square.btn.classList.add("marked");
   }
   else if (square.status === 2) {
     square.status = 0;
+    theDojo.ninjas++;
     square.btn.classList.remove("marked");
     square.btn.innerText = "";
   }
+  checkWinCondition();
 }
 
 function randomBoard(width, height, ninjas) {
   theDojo.width = width;
   theDojo.height = height;
   theDojo.ninjas = ninjas;
+  theDojo.safes = width*height-ninjas;
   // create the empty board
   theDojo.squares = [];
   for (var i = 0; i < height; i++) {
@@ -183,6 +221,7 @@ function newGame() {
   var difficulty = parseInt(difficulty_input.value);
 
   randomBoard(width, height, calculateNinjas(width, height, difficulty));
+  theDojo.gameOver=false;
 }
 
 newGame();

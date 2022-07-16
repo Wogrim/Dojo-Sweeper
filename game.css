@@ -94,3 +94,27 @@ button#newgame {
 button#newgame:active {
     box-shadow: none;
 }
+
+#win_message, #lose_message
+{
+    width: 30%;
+    padding: 10px;
+    margin: 0 auto;
+    position:fixed;
+    left:0;
+    right:0;
+    top: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#win_message h3
+{
+    color: rgb(108, 245, 255);
+    text-align: center;
+}
+
+#lose_message h3
+{
+    color: rgb(255, 108, 108);
+    text-align: center;
+}
