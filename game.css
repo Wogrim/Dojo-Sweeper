@@ -6,19 +6,48 @@
     font-family: 'Press Start 2P', monospace;
 }
 
-h2 {
+h2#title {
     text-align: center;
     margin: 20px 0;
 }
 
 #the-dojo {
-    width: 320px;
     margin: 0 auto;
+    width: 320px;
+}
+
+#remaining {
+    display: flex;
+    justify-content: space-between;
+    background-color: dimgray;
+    padding: 3px;
+    border: 3px solid darkgray;
+    border-right-color: black;
+    border-bottom-color: black;
+}
+
+#remaining h3 {
+    border: 3px solid black;
+    border-bottom-color: darkgray;
+    border-right-color: darkgray;
+    padding: 5px;
+    background-color: rgb(66, 66, 66);
+}
+
+h3#safes {
+    color: rgb(175, 196, 140);
+}
+
+h3#ninjas {
+    color: rgb(236, 88, 88)
+}
+
+#buttons {
     display: flex;
     flex-wrap: wrap;
 }
 
-#the-dojo button {
+#buttons button {
     background-color: wheat;
     height: 32px;
     width: 32px;
@@ -27,34 +56,34 @@ h2 {
     border-bottom: 2px solid #999;
 }
 
-#the-dojo button:active {
+#buttons button:active {
     border: 2px solid #999;
     border-right: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
 }
 
-#the-dojo button.revealed {
+#buttons button.revealed {
     background-color: rgb(175, 196, 140);
     border: none;
 }
 
-#the-dojo button.revealed:active {
+#buttons button.revealed:active {
     border: none;
 }
 
-#the-dojo button.marked {
+#buttons button.marked {
     background-color: rgb(236, 88, 88);
 }
 
-#the-dojo button.revealed.cheat {
-    background-color:rgb(140, 190, 196)
+#buttons button.revealed.cheat {
+    background-color: rgb(140, 190, 196)
 }
 
-#the-dojo button.marked.cheat{
-    background-color:rgb(236, 189, 88)
+#buttons button.marked.cheat {
+    background-color: rgb(236, 189, 88)
 }
 
-#the-dojo button.cheat.mistake{
+#buttons button.cheat.mistake {
     background-color: rgb(190, 140, 196);
 }
 
@@ -95,26 +124,24 @@ button#newgame:active {
     box-shadow: none;
 }
 
-#win_message, #lose_message
-{
+#win_message,
+#lose_message {
     width: 30%;
     padding: 10px;
     margin: 0 auto;
-    position:fixed;
-    left:0;
-    right:0;
+    position: fixed;
+    left: 0;
+    right: 0;
     top: 100px;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-#win_message h3
-{
+#win_message h3 {
     color: rgb(108, 245, 255);
     text-align: center;
 }
 
-#lose_message h3
-{
-    color: rgb(255, 108, 108);
+#lose_message h3 {
+    color: rgb(236, 88, 88);
     text-align: center;
 }

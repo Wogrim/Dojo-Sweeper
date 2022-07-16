@@ -4,10 +4,13 @@ var theDojo =
   width: 0,
   height: 0,
   ninjas: 0, //remaining ninjas
+  ninjas_elem: document.querySelector("#ninjas"),
   safes: 0, //remaining safe squares
+  safes_elem: document.querySelector("#safes"),
   gameOver: false,
   squares: [],
-  div: document.querySelector("#the-dojo")
+  div: document.querySelector("#the-dojo"), //for setting board width
+  buttons: document.querySelector("#buttons") //where we put button html
 };
 
 var width_input = document.querySelector("#width");
@@ -15,6 +18,7 @@ var height_input = document.querySelector("#height");
 var difficulty_input = document.querySelector("#difficulty");
 
 var win_message = document.querySelector("#win_message");
+var lose_message = document.querySelector("#lose_message");
 
 function makeSquare(i, j) {
   return {
@@ -60,25 +64,33 @@ function cheatReveal() {
   }
 }
 
-function showWinMessage()
-{
-  win_message.hidden=false;
+function showWinMessage() {
+  win_message.hidden = false;
   //hide again after 2 seconds
-  setTimeout(() => {  win_message.hidden=true; }, 2000);
+  setTimeout(() => { win_message.hidden = true; }, 2000);
 }
 
-function showLoseMessage()
-{
-  lose_message.hidden=false;
+function showLoseMessage() {
+  lose_message.hidden = false;
   //hide again after 2 seconds
-  setTimeout(() => {  lose_message.hidden=true; }, 2000);
+  setTimeout(() => { lose_message.hidden = true; }, 2000);
 }
 
-function checkWinCondition()
-{
-  if(theDojo.safes===0 && theDojo.ninjas===0)
-  {
-    theDojo.gameOver=true;
+function updateCounters() {
+  theDojo.safes_elem.innerText = ('00' + theDojo.safes).slice(-3);
+  if (theDojo.ninjas <= -10)
+    theDojo.ninjas_elem.innerText = theDojo.ninjas;
+  else if (theDojo.ninjas < 0)
+    theDojo.ninjas_elem.innerText = ('-0' + Math.abs(theDojo.ninjas));
+  else
+    theDojo.ninjas_elem.innerText = ('00' + theDojo.ninjas).slice(-3);
+}
+
+function checkWinCondition() {
+  updateCounters();
+
+  if (theDojo.safes === 0 && theDojo.ninjas === 0) {
+    theDojo.gameOver = true;
     showWinMessage();
   }
 }
@@ -87,12 +99,12 @@ function leftclick(i, j) {
   var square = theDojo.squares[i][j];
 
   // do nothing if already revealed or marked or game is over
-  if (square.status > 0 || theDojo.gameOver===true)
+  if (square.status > 0 || theDojo.gameOver === true)
     return;
 
   // lose condition
   if (square.ninja) {
-    theDojo.gameOver=true;
+    theDojo.gameOver = true;
     square.btn.classList.add('mistake');
     cheatReveal();
     showLoseMessage();
@@ -126,7 +138,7 @@ function rightclick(i, j) {
   var square = theDojo.squares[i][j];
 
   //do nothing if game is over
-  if(theDojo.gameOver)
+  if (theDojo.gameOver)
     return;
 
   // mark or unmark the square via class for special CSS styling
@@ -150,7 +162,7 @@ function randomBoard(width, height, ninjas) {
   theDojo.width = width;
   theDojo.height = height;
   theDojo.ninjas = ninjas;
-  theDojo.safes = width*height-ninjas;
+  theDojo.safes = width * height - ninjas;
   // create the empty board
   theDojo.squares = [];
   for (var i = 0; i < height; i++) {
@@ -194,13 +206,15 @@ function randomBoard(width, height, ninjas) {
   for (var i = 0; i < height; i++)
     for (var j = 0; j < width; j++)
       buttonshtml += `<button onclick="leftclick(${i}, ${j})" oncontextmenu="rightclick(${i}, ${j});return false;"></button>`;
-  theDojo.div.innerHTML = buttonshtml;
+  theDojo.buttons.innerHTML = buttonshtml;
 
   //save the references to the board buttons
   for (var i = 0; i < height; i++)
     for (var j = 0; j < width; j++)
-      theDojo.squares[i][j].btn = document.querySelector(`#the-dojo > button:nth-child(${i * width + j + 1})`);
+      theDojo.squares[i][j].btn = document.querySelector(`#buttons > button:nth-child(${i * width + j + 1})`);
 
+  theDojo.gameOver = false;
+  updateCounters();
 }
 
 function updateLabel(element, labelID) {
@@ -221,7 +235,6 @@ function newGame() {
   var difficulty = parseInt(difficulty_input.value);
 
   randomBoard(width, height, calculateNinjas(width, height, difficulty));
-  theDojo.gameOver=false;
 }
 
 newGame();
