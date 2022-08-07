@@ -1,3 +1,126 @@
+//////////////////////////////  GAME CLASSES  //////////////////////////////
+
+class Square {
+  constructor(i, j) {
+    this.i = i;
+    this.j = j;
+    this.ninja = false;
+    this.nearby = 0;  // number that will be on a square if reveal and not ninja
+    this.status = 0;
+    //0 fresh
+    //1 revealed
+    //2 marked
+  }
+}
+
+class Dojo {
+  constructor() {
+    this.width = 0;
+    this.height = 0;
+    this.ninjas = 0;  // count of total ninjas on the board - count of marked squares
+    this.safes = 0;  // count of safe squares on the board - count of revealed squares
+    this.gameOver = true;  // can't interact with squares when gameOver is true
+    this.squares = [];  // a 2D array of Square
+  }
+
+  // make a new board with random ninja locations, 
+  newGame(width, height, ninjas) {
+    // size and counters
+    this.width = width;
+    this.height = height;
+    this.ninjas = ninjas;
+    this.safes = width * height - ninjas;
+
+    // create squares
+    this.squares = [];  // remove any squares from previous game
+    var squares1 = [];  // a temporary 1d array of the squares for choosing ninja locations
+    for (var i = 0; i < height; i++) {
+      this.squares.push([])
+      for (var j = 0; j < width; j++) {
+        this.squares[i].push(new Square(i, j));
+        squares1.push(this.squares[i][j]);
+      }
+    }
+
+    // randomly assign ninjas to squares from the 1d array
+    var ninja_squares = [];  // temporary 1d array of the squares that have ninjas
+    var count = 0;
+    while (count < ninjas) {
+      var i1 = Math.floor(Math.random() * squares1.length);
+      squares1[i1].ninja = true;
+      //move the chosen square to ninja_squares array
+      ninja_squares.push(squares1.splice(i1, 1)[0]);
+      count++;
+    }
+
+    // increment 'nearby' for squares next to the squares with ninjas
+    // (less calculations than counting all ninjas next to every square)
+    for (var ninja_square in ninja_squares) {
+      var imin = Math.max(0, ninja_square.i - 1);
+      var imax = Math.min(height - 1, ninja_square.i + 1);
+      var jmin = Math.max(0, ninja_square.j - 1);
+      var jmax = Math.min(width - 1, ninja_square.j + 1);
+      for (var i2 = imin; i2 <= imax; i2++)
+        for (var j2 = jmin; j2 <= jmax; j2++)  // i2,j2 is an adjacent square
+          this.squares[i2][j2].nearby++;
+    }
+
+    // make the game playable
+    this.gameOver = false;
+  }
+
+  checkWinCondition() {
+    if (this.safes === 0 && this.ninjas === 0) {
+      this.gameOver = true;
+      // TODO: notify UI
+    }
+  }
+
+  tryReveal(i, j) {
+    var square = this.squares[i][j];
+
+    // do nothing if already revealed or marked or game is over
+    if (square.status > 0 || this.gameOver === true)
+      return;
+
+    // lose condition
+    if (square.ninja) {
+      this.gameOver = true;
+      square.btn.classList.add('mistake');
+      cheatReveal();
+      showLoseMessage();
+      return;
+    }
+
+    square.status = 1;
+    this.safes--;
+    square.btn.classList.add("revealed");
+    if (square.nearby > 0)
+      square.btn.innerText = square.nearby;
+
+    // if there are no nearby ninjas, reveal adjacent squares
+    // by recursively calling the leftclick() function
+    if (square.nearby === 0) {
+      var imin = Math.max(0, i - 1);
+      var imax = Math.min(this.height - 1, i + 1);
+      var jmin = Math.max(0, j - 1);
+      var jmax = Math.min(this.width - 1, j + 1);
+
+      for (var i2 = imin; i2 <= imax; i2++)
+        for (var j2 = jmin; j2 <= jmax; j2++)
+          if (this.squares[i2][j2].status === 0)
+            leftclick(i2, j2);
+    }
+
+    this.checkWinCondition();
+
+  }
+}
+
+//////////////////////////////  GAME CLASSES  //////////////////////////////
+
+//////////////////////////////  OLD CODE  //////////////////////////////
+
 //theDojo is a 2D array of objects ("squares") which keep track of their status
 var theDojo =
 {
