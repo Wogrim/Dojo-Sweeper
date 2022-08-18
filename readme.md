@@ -1,3 +1,5 @@
+[YouTube Video](https://youtu.be/Ze88PZCPXbM)
+
 ## what is it?
 
 a Coding Dojo algorithm problem (count the ninjas in this and adjacent squares) that is the basis of a minesweeper clone, which I am making into a fully functional game (see the original files in the other branch)
